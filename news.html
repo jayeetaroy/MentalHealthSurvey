@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+
+    svg {
+        width: 100%;
+   }
+    text{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    .toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+    .legend {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 60%;
+    }
+    text {
+        font: 10px sans-serif;
+    }
+    .axis text {
+        font: 10px sans-serif;
+    }
+    .axis path{
+        fill: none;
+        stroke: #000;
+    }
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+    .x.axis path {
+        display: none;
+    }
+</style>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Mental Health in Organizations</title>
+
+</head>
+<body>
+<div class="header">
+    <h1>Mental Health in Organizations</h1>
+    <p>Survey on Mental Health in the Tech Workplace</p>
+</div>
+
+
+<ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="test.html">Demographics</a></li>
+    <li><a class="active"  href="news.html">Mental Illness History</a></li>
+    <li><a href="contact.html">Work and Mental Illness</a></li>
+    <li><a href="discuss.html">Discussing Mental Illness</a></li>
+    <li style="float:right"><a href="another.html">About</a></li>
+</ul>
+
+
+<div class="content">
+
+
+    <div class="content_new">
+        <h3>Significance of family genetics in Mental Disorders</h3>
+        <p>
+            Because studies have shown a majority of mental health disorders are inheritable.  This means that if the parents have a certain disorder, there is an increased chance children may have that disorder as well.   ADHD has a heritability rate of 75 percent.  This means that if parents had ADHD, there is a 75% chance that children inherited an ADHD gene or genes from at least one of the parents (Rietveld et al. 2004).  Schizophrenia has a heritability rate of 64 percent, and bipolar disorder has a heritability rate of 59 percent (Lichtenstein et al. 2009).
+        </p><p>
+            Knowing the family's mental health history gives patients and the clinician a great advantage in determining a diagnosis and course of treatment.
+        </p>
+
+        <h3>Stigmas around Mental Disorders</h3>
+        <p>There are still attitudes within most societies that view symptoms of psychopathology as threatening and uncomfortable, and these attitudes frequently foster stigma and discrimination towards people with mental health problems. Such reactions are common when people are brave enough to admit they have a mental health problem, and they can often lead on to various forms of exclusion or discrimination – either within social circles or within the workplace.</p>
+        <p> <h5>What is mental health stigma?</h5> Mental health stigma can be divided into two distinct types: social stigma is characterized by prejudicial attitudes and discriminating behaviour directed towards individuals with mental health problems as a result of the psychiatric label they have been given. In contrast, perceived stigma or self-stigma is the internalizing by the mental health sufferer of their perceptions of discrimination (Link, Cullen, Struening & Shrout, 1989), and perceived stigma can significantly affect feelings of shame and lead to poorer treatment outcomes (Perlick, Rosenheck, Clarkin, Sirey et al., 2001).</p>
+    </div>
+
+
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.7.0/d3-legend.min.js"></script>
+    <script>
+        function wrap(text, width) {
+            text.each(function() {
+                var text = d3.select(this),
+                    words = text.text().split(/\s+/).reverse(),
+                    word,
+                    line = [],
+                    lineNumber = 0,
+                    lineHeight = 1.1, // ems
+                    y = text.attr("y"),
+                    dy = parseFloat(text.attr("dy")),
+                    tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                while (word = words.pop()) {
+                    line.push(word);
+                    tspan.text(line.join(" "));
+                    if (tspan.node().getComputedTextLength() > width) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                    }
+                }
+            });
+        }
+        dataset = [
+            {label:"USA", "Family Histroy":25, "Recieved Treatment":40, "Affected Physical health": 15, "Faced Stigma":20},
+            {label:"Australia", "Family Histroy":5, "Recieved Treatment":30, "Affected Physical health": 50, "Faced Stigma":15},
+            {label:"Canada", "Family Histroy":20, "Recieved Treatment":30, "Affected Physical health": 40, "Faced Stigma":10},
+            {label:"UK", "Family Histroy":10, "Recieved Treatment":40, "Affected Physical health": 45, "Faced Stigma":5},
+            {label:"Russia", "Family Histroy":5, "Recieved Treatment":15, "Affected Physical health": 40, "Faced Stigma":40},
+        ];
+        var margin = {top: (parseInt(d3.select('body').style('height'), 10)/20), right: (parseInt(d3.select('body').style('width'), 10)/20), bottom: (parseInt(d3.select('body').style('height'), 10)/6), left: (parseInt(d3.select('body').style('width'), 10)/20)},
+            width = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right,
+            height = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom;
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1,.3);
+        var y = d3.scale.linear()
+            .rangeRound([height, 0]);
+        var colorRange = d3.scale.category20();
+        var color = d3.scale.ordinal()
+            .range(colorRange.range());
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(d3.format(".2s"));
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var divTooltip = d3.select("body").append("div").attr("class", "toolTip");
+        color.domain(d3.keys(dataset[0]).filter(function(key) { return key !== "label"; }));
+        dataset.forEach(function(d) {
+            var y0 = 0;
+            d.values = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
+            d.total = d.values[d.values.length - 1].y1;
+        });
+        x.domain(dataset.map(function(d) { return d.label; }));
+        y.domain([0, d3.max(dataset, function(d) { return d.total; })]);
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 9)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Percentage from total surveyed %");
+        var bar = svg.selectAll(".label")
+            .data(dataset)
+            .enter().append("g")
+            .attr("class", "g")
+            .attr("transform", function(d) { return "translate(" + x(d.label) + ",0)"; });
+        svg.selectAll(".x.axis .tick text")
+            .call(wrap, x.rangeBand());
+
+        var bar_enter = bar.selectAll("rect")
+            .data(function(d) { return d.values; })
+            .enter();
+
+        bar_enter.append("rect")
+            .attr("width", x.rangeBand())
+            .attr("y", function(d) { return y(d.y1); })
+            .attr("height", function(d) { return y(d.y0) - y(d.y1); })
+            .style("fill", function(d) { return color(d.name); });
+
+        bar_enter.append("text")
+            .text(function(d) { return d3.format(".2s")(d.y1-d.y0)+"%"; })
+            .attr("y", function(d) { return y(d.y1)+(y(d.y0) - y(d.y1))/2; })
+            .attr("x", x.rangeBand()/3)
+            .style("fill", '#ffffff');
+
+        bar
+            .on("mousemove", function(d){
+                divTooltip.style("left", d3.event.pageX+10+"px");
+                divTooltip.style("top", d3.event.pageY-25+"px");
+                divTooltip.style("display", "inline-block");
+                var elements = document.querySelectorAll(':hover');
+                l = elements.length
+                l = l-1
+                element = elements[l].__data__
+                value = element.y1 - element.y0
+                divTooltip.html((d.label)+"<br>"+element.name+"<br>"+value+"%");
+            });
+        bar
+            .on("mouseout", function(d){
+                divTooltip.style("display", "none");
+            });
+        svg.append("g")
+            .attr("class", "legendLinear")
+            .attr("transform", "translate(0,"+(height+30)+")");
+        var legend = d3.legend.color()
+            .shapeWidth(height/4)
+            .shapePadding(10)
+            .orient('horizontal')
+            .scale(color);
+        svg.select(".legendLinear")
+            .call(legend);
+    </script>
+
+
+
+
+
+
+
+</div>
+
+<div class="footer">
+    <p>Survey on Mental Health</p>
+</body>
+</html>

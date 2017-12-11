@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+<style>
+
+    .axis .domain {
+        display: none;
+    }
+
+</style>
+
+<head><title>Demographics</title>
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Mental Health in Organizations</h1>
+    <p>Survey on Mental Health in the Tech Workplace
+    </p>
+</div>
+<ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a  class="active" href="test.html">Demographics</a></li>
+    <li><a href="news.html">Mental Illness History</a></li>
+    <li><a href="contact.html">Work and Mental Illness</a></li>
+    <li><a href="discuss.html">Discussing Mental Illness</a></li>
+    <li style="float:right"><a href="another.html">About</a></li>
+</ul>
+
+<div class="content">
+<div class="content_new">
+
+    <p>A mental illness is a condition that affects a person's thinking, feeling or mood. Such conditions may affect someone's ability to relate to others and function each day. Each person will have different experiences, even people with the same diagnosis.
+
+        Recovery, including meaningful roles in social life, school and work, is possible, especially when you start treatment early and play a strong role in your own recovery process.</p>
+    <p>Research shows that half of all lifetime cases of mental illness begin by age 14.1 Scientists are discovering that changes in the body leading to mental illness may start much earlier, before any symptoms appear.
+
+        Through greater understanding of when and how fast specific areas of children's brains develop, we are learning more about the early stages of a wide range of mental illnesses that appear later in life. Helping young children and their parents manage difficulties early in life may prevent the development of disorders. Once mental illness develops, it becomes a regular part of your child's behavior and more difficult to treat. Even though we know how to treat (though not yet cure) many disorders, many children with mental illnesses are not getting treatment.</p>
+    <P>Half of mental health conditions begin by age 14, and 75% of mental health conditions develop by age 24.</P>
+
+    <h5>Demographic data of the states with the highest counts of mental illnesses across various age groups</h5>
+
+
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+    var svg = d3.select("svg"),
+        margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom,
+        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var x0 = d3.scaleBand()
+        .rangeRound([0, width])
+        .paddingInner(0.1);
+
+    var x1 = d3.scaleBand()
+        .padding(0.05);
+
+    var y = d3.scaleLinear()
+        .rangeRound([height, 0]);
+
+    var z = d3.scaleOrdinal()
+        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+    d3.csv("data/data2.csv", function(d, i, columns) {
+        for (var i = 1, n = columns.length; i < n; ++i) d[columns[i]] = +d[columns[i]];
+        return d;
+    }, function(error, data) {
+        if (error) throw error;
+
+        var keys = data.columns.slice(1);
+
+        x0.domain(data.map(function(d) { return d.State; }));
+        x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+        y.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key]; }); })]).nice();
+
+        g.append("g")
+            .selectAll("g")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", function(d) { return "translate(" + x0(d.State) + ",0)"; })
+            .selectAll("rect")
+            .data(function(d) { return keys.map(function(key) { return {key: key, value: d[key]}; }); })
+            .enter().append("rect")
+            .attr("x", function(d) { return x1(d.key); })
+            .attr("y", function(d) { return y(d.value); })
+            .attr("width", x1.bandwidth())
+            .attr("height", function(d) { return height - y(d.value); })
+            .attr("fill", function(d) { return z(d.key); });
+
+        g.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x0));
+
+        g.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(null, "s"))
+            .append("text")
+            .attr("x", 2)
+            .attr("y", y(y.ticks().pop()) + 0.5)
+            .attr("dy", "0.32em")
+            .attr("fill", "#000")
+            .attr("font-weight", "bold")
+            .attr("text-anchor", "start")
+            .text("Counts");
+
+        var legend = g.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 10)
+            .attr("text-anchor", "end")
+            .selectAll("g")
+            .data(keys.slice().reverse())
+            .enter().append("g")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 19)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", z);
+
+        legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function(d) { return d; });
+    });
+
+
+</script>
+</div></div>
+
+<div class="footer">
+    <p>Survey on Mental Health</p>
+</body>
+</html>
