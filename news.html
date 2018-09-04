@@ -3,8 +3,17 @@
 
 <style>
 
+    body{
+        background: #b3d4fc;
+    }
     svg {
-        width: 100%;
+        border-radius: 25px;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        width: 98%;
+        background: white;
+        margin-left: 10px;
+
    }
     text{
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -98,7 +107,17 @@
         <p> <h5>What is mental health stigma?</h5> Mental health stigma can be divided into two distinct types: social stigma is characterized by prejudicial attitudes and discriminating behaviour directed towards individuals with mental health problems as a result of the psychiatric label they have been given. In contrast, perceived stigma or self-stigma is the internalizing by the mental health sufferer of their perceptions of discrimination (Link, Cullen, Struening & Shrout, 1989), and perceived stigma can significantly affect feelings of shame and lead to poorer treatment outcomes (Perlick, Rosenheck, Clarkin, Sirey et al., 2001).</p>
     </div>
 
+    <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
+
+    <!--scrpit to connect to db and draw graph-->
+
+
+    <!--<script type="text/javascript" src="js/dbNews.js"></script>-->
+
+
+    <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--Scrpit to override the dbNews.js to generate static content ---- for evaluation purposes-->
 
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.7.0/d3-legend.min.js"></script>
@@ -229,15 +248,10 @@
             .call(legend);
     </script>
 
-
-
-
-
-
-
 </div>
 
 <div class="footer">
     <p>Survey on Mental Health</p>
+</div>
 </body>
 </html>

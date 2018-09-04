@@ -31,8 +31,14 @@
         stroke: #fff;
     }
 
+    body{
+        background: #b3d4fc;
+    }
     svg {
-        width: border-box;
+        border-radius: 25px;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        width: 72%;
         background: whitesmoke;
     }
 
@@ -73,8 +79,28 @@
 
       <h2>A Graph showing how diagnosed cases of Mental Disorders in different age groups</h2>
     <p> The number of mental disorders diagnosed in the age of 25-44 is alarmingly high, despite the raised awareness for mental illness and how to avoid them within this age group. </p>
+    </br>
     <script src="//d3js.org/d3.v3.min.js"></script>
-    <script>
+
+
+
+        <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+        <!--script to connect to db and draw graph-->
+
+
+        <!--<script type="text/javascript" src="js/dbDiscuss.js"></script>-->
+
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+        <!--Scrpit to override the dbDiscuss.js to generate static content ---- for evaluation purposes-->
+
+
+
+
+        <script>
 
         var width = 960,
             height = 500,
@@ -112,6 +138,9 @@
             g.append("text")
                 .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
                 .attr("dy", ".35em")
+                .style("font-size", "20px")
+                .style("fill", "#000000")
+                .style("font-weight", "bold")
                 .text(function(d) { return d.data.age; });
         });
 
